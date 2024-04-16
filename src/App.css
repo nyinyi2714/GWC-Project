@@ -4,3 +4,7 @@
   --grey: #808080;
   --light-grey: #d3d3d3;
 }
+
+section {
+  min-height: 100vh;
+}
