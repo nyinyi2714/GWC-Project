@@ -23,7 +23,8 @@ export async function login({ email, password }) {
 
       // Save token and user in local storage
       localStorage.setItem("token", responseData.token)
-      localStorage.setItem("user", JSON.stringify(responseData.user))
+      // TODO: Save userData in StateContext
+      // responseData.user
 
       return true
     } else {
@@ -63,7 +64,8 @@ export async function register({ first_name, last_name, university, email, passw
       
       // Save token and user in local storage
       localStorage.setItem("token", responseData.token)
-      localStorage.setItem("user", JSON.stringify(responseData.user))
+      // TODO: Save userData in StateContext
+      // responseData.user
 
       return true
     } else {
@@ -95,9 +97,10 @@ export async function logout() {
 
     if (response.ok) {
       
-      // remove token and user from local storage
-      localStorage.removeItem("user");
-      localStorage.removeItem("token");
+      // remove token from local storage
+      localStorage.removeItem("token")
+
+      // TODO: reset user stored in StateContext
 
       return true
     } else {

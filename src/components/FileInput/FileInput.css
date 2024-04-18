@@ -1,0 +1,8 @@
+.file-input {
+  max-width: 500px;
+}
+
+.file-input label {
+  margin-left: 3px;
+  font-size: 1rem;
+}

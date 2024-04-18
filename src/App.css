@@ -12,6 +12,8 @@ html, body {
 section {
   min-height: calc(100vh - 70px);
   margin-top: 70px;
+
+  padding: 1rem;
 }
 
 nav {

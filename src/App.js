@@ -1,7 +1,7 @@
 import { Routes, Route } from 'react-router-dom'
 import { Homepage, Login, Register } from './pages'
 import Navbar from './components/Navbar/Navbar-Search'
-import './App.css';
+import './App.css'
 
 function App() {
   return (
@@ -13,7 +13,7 @@ function App() {
         <Route path="/register" element={<Register />} />
       </Routes>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
