@@ -7,7 +7,7 @@
  * @return {Promise<boolean>} - A promise that resolves to `true`
  * if login is successful, `false` otherwise.
  */
-export async function login() {
+export async function login({ email, password }) {
   try {
 
     let response = await fetch(`${process.env.BACKEND_URL}login`, {
@@ -48,7 +48,7 @@ export async function login() {
  * @return {Promise<boolean>} - A promise that resolves to `true` 
  * if registration is successful, `false` otherwise.
  */
-export async function register() {
+export async function register({ first_name, last_name, university, email, password }) {
   try {
     let response = await fetch(`${process.env.BACKEND_URL}register`, {
       method: "POST",
