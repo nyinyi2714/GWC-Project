@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react'
-import { upload } from '../../hooks/useUpload'
+import { useUpload } from '../../hooks'
 import { Button } from '../index'
 import './FileInput.css'
 
@@ -13,6 +13,7 @@ export default function FileInput() {
   const [isUploading, setIsUploading] = useState(false)
 
   const fileInputRef = useRef()
+  const { upload } = useUpload()
 
   /**
    * Handles file selection change event.

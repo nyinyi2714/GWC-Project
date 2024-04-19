@@ -1,6 +1,6 @@
 import './Login.css';
 import { Link, useNavigate } from 'react-router-dom';
-import { login } from '../../hooks/useAuth';
+import {useAuth} from '../../hooks';
 import { useState } from 'react';
 
 /**
@@ -9,7 +9,8 @@ import { useState } from 'react';
  */
 export default function Login() {
   const navigate = useNavigate();
-
+  const { login } = useAuth()
+ 
   // State to manage form data
   const [formData, setFormData] = useState({
     email: '',

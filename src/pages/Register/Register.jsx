@@ -1,14 +1,15 @@
-import './Register.css';
-import { Link, useNavigate } from 'react-router-dom';
-import { register } from '../../hooks/useAuth';
-import { useState } from 'react';
+import './Register.css'
+import { Link, useNavigate } from 'react-router-dom'
+import { useAuth } from '../../hooks'
+import { useState } from 'react'
 
 /**
  * Component for user registration.
  * @returns {JSX.Element} - The rendered Register component.
  */
 export default function Register() {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
+  const { register } = useAuth()
 
   // State to manage form data
   const [formData, setFormData] = useState({
@@ -17,7 +18,7 @@ export default function Register() {
     email: '',
     university: '',
     password: '',
-  });
+  })
 
   /**
    * Updates the form data based on user input.
@@ -27,26 +28,26 @@ export default function Register() {
     setFormData(prevStates => ({
       ...prevStates,
       [e.target.id]: e.target.value,
-    }));
-  };
+    }))
+  }
 
   /**
    * Handles the registration process.
    * @param {Object} e - The event object.
    */
   const handleRegister = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
 
     // Attempt to register the user using the provided data
-    const success = await register(formData);
+    const success = await register(formData)
 
     // If registration is successful, redirect to homepage
-    if(success) navigate('/');
+    if(success) navigate('/')
     // Else, display an error message
     else {
       // TODO: Implement error handling
     }
-  };
+  }
 
   return (
     <section className="register">
@@ -150,5 +151,5 @@ export default function Register() {
         <p>Already have an account? <Link className="text-blue-700" to="/login">Login Here</Link></p>
       </form>
     </section>
-  );
+  )
 }
