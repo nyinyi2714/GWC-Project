@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react'
 import { useUpload } from '../../hooks'
 import { Button } from '../index'
+import Select from 'react-select'
 import './FileInput.css'
 
 /**
@@ -8,9 +9,33 @@ import './FileInput.css'
  * @returns {JSX.Element} - The rendered FileInput component.
  */
 export default function FileInput() {
-  const [courseTitle, setCourseTitle] = useState('')
-  const [selectedFiles, setSelectedFiles] = useState([])
+  // Default formData
+  const defaultFormData = {
+    courseTitle: '',
+    courseDescription: '',
+    instructor: '',
+    semester: 'Semester',
+    year: 2024,
+  }
+
+  // Semester Options
+  const semesterOptions = [
+    { value: 'spring', label: 'Spring', field: 'semester' },
+    { value: 'summer', label: 'Summer', field: 'semester' },
+    { value: 'fall', label: 'Fall', field: 'semester' },
+    { value: 'winter', label: 'Winter', field: 'semester' },
+  ];
+
+  const [formData, setFormData] = useState(defaultFormData)
+  const [selectedFile, setSelectedFile] = useState([])
   const [isUploading, setIsUploading] = useState(false)
+  const [isCreatingNewCourse, setIsCreatingNewCourse] = useState(true)
+  const [courseOptions, setCourseOptions] = useState([
+    { value: 'spring', label: 'Spring', field: 'courseTitle' },
+    { value: 'summer', label: 'Summer', field: 'courseTitle' },
+    { value: 'fall', label: 'Fall', field: 'courseTitle' },
+    { value: 'New Course', label: 'New Course', field: 'courseTitle' },
+  ])
 
   const fileInputRef = useRef()
   const { upload } = useUpload()
@@ -21,7 +46,7 @@ export default function FileInput() {
    */
   const handleFileChange = (e) => {
     const filesArray = Array.from(e.target.files)
-    setSelectedFiles(filesArray)
+    setSelectedFile(filesArray)
   }
 
   /**
@@ -29,7 +54,7 @@ export default function FileInput() {
    */
   const handleUploadFiles = async () => {
     setIsUploading(true)
-    const success = await upload(selectedFiles, courseTitle)
+    const success = await upload(selectedFile, ...formData)
     setIsUploading(false)
 
     console.log(success)
@@ -37,59 +62,149 @@ export default function FileInput() {
   }
 
   /**
-   * Handles entering course title.
+   * Handles entering form inputs.
    * @param {Event} e - The change event object.
    */
-  const handleCourseTitle = (e) => {
-    setCourseTitle(e.target.value)
+  const handleFormData = (e) => {
+    console.log(e)
+    if(!e.target) {
+      setFormData(prevStates => ({
+        ...prevStates,
+        [e.field]: e.label,
+      }))
+    }
+
+    else {
+      setFormData(prevStates => ({
+        ...prevStates,
+        [e.target.name]: e.target.value,
+      }))
+    }
+    
   }
 
   /**
-   * Resets the selected files and course title.
+   * Resets the selected files and form inputs.
    */
   const reset = () => {
-    setSelectedFiles([])
-    setCourseTitle('')
+    setSelectedFile([])
+    setFormData(defaultFormData)
     fileInputRef.current.value = null
   }
+
+  console.log(formData)
 
   return (
     <form className='file-input'>
 
-      <label htmlFor="course-title" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Course Title</label>
+      <label htmlFor="course-title" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Course</label>
+      <Select
+        value={formData.courseTitle}
+        className='custom-input text-gray-900 text-sm bg-gray-50 border-gray-300 rounded'
+        onChange={handleFormData}
+        options={courseOptions}
+        placeholder={formData.courseTitle ? formData.courseTitle : "Course Title"}
+        isSearchable
+        required
+        name='courseTitle'
+        id='course-title'
+        styles={{
+          input: (base) => ({
+            ...base,
+            "input:focus": {
+              boxShadow: "none",
+            },
+          }),
+        }}
+      />
+
+      { formData.courseTitle === 'New Course' &&
+        <>
+          <label htmlFor="course-description" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">New Course Title</label>
+          <input
+            value={FormData.courseDescription}
+            onChange={handleFormData}
+            name='courseDescription'
+            type="text"
+            id="course-description"
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder="New Course Title"
+            required
+          />
+
+          <label htmlFor="course-description" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Course Description</label>
+          <input
+            value={FormData.courseDescription}
+            onChange={handleFormData}
+            name='courseDescription'
+            type="text"
+            id="course-description"
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder="Course Description"
+            required
+          />
+        </>
+      }
+
+      <label htmlFor="instructor" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Instructor</label>
       <input
-        value={courseTitle}
-        onChange={handleCourseTitle}
+        value={FormData.instructor}
+        onChange={handleFormData}
+        name='instructor'
         type="text"
-        id="course-title"
-        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-        placeholder="Course Title"
+        id="instructor"
+        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        placeholder="Instructor"
+        required
+      />
+
+      <label htmlFor="semester" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Semester</label>
+      <Select
+        className='text-gray-900 text-sm bg-gray-50 border-gray-300 rounded'
+        onChange={handleFormData}
+        options={semesterOptions}
+        placeholder={formData.semester}
+        isSearchable={false}
+        required
+        name='semester'
+        id='semester'
+      />
+
+      <label htmlFor="year" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Year</label>
+      <input
+        value={FormData.year}
+        onChange={handleFormData}
+        name='year'
+        type="number"
+        id="year"
+        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        placeholder="2024"
+        required
+      />
+
+      <label htmlFor="note-title" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Note Title</label>
+      <input
+        value={FormData.noteTitle}
+        onChange={handleFormData}
+        name='noteTitle'
+        type="text"
+        id="note-title"
+        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        placeholder="Note Title"
         required
       />
 
       <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white" htmlFor="file-upload">
-        Upload your Images
+        Note File
       </label>
       <input
-        className="block w-full mb-5 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+        className="block w-full mb-5 text-sm text-gray-900 border border-gray-300 rounded cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
         id="file-upload"
         type="file"
-        multiple
+        accept="application/pdf"
         onChange={handleFileChange}
         ref={fileInputRef}
       />
-
-      {/* Display the selected files */}
-      {selectedFiles.length > 0 && (
-        <div>
-          <h2>Selected Files:</h2>
-          <ul>
-            {selectedFiles.map((file, index) => (
-              <li key={index}>{file.name}</li>
-            ))}
-          </ul>
-        </div>
-      )}
 
       {/* Button for uploading files */}
       <Button onClick={handleUploadFiles} disabled={isUploading}>
