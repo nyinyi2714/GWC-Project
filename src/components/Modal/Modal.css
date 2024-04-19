@@ -1,0 +1,14 @@
+.modal {
+  position: relative;
+}
+
+.modal-close-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 1rem;
+}
+
+.modal-content {
+  margin-top: 1.5rem;
+}

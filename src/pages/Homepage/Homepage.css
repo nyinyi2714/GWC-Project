@@ -1,0 +1,6 @@
+.loading-spinner {
+  width: 100%;
+  height: calc(100vh - 102px);
+  display: grid;
+  place-items: center;
+}

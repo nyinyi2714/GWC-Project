@@ -3,8 +3,8 @@
  * @param {File[]} selectedFiles - Array of selected files to upload.
  * @returns {Promise<boolean>} - A promise indicating whether the upload was successful.
  */
-export async function upload(selectedFiles) {
-  console.log(selectedFiles)
+export async function upload(selectedFiles, courseTitle) {
+
   // Check if any files are selected
   if (selectedFiles.length === 0) {
     console.log("No files selected")
@@ -15,6 +15,7 @@ export async function upload(selectedFiles) {
   const formData = new FormData()
   selectedFiles.forEach(file => {
     formData.append('files[]', file)
+    formData.append('courseTitle', courseTitle)
   })
 
   try {

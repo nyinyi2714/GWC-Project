@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { upload } from '../../hooks/useUpload'
 import { Button } from '../index'
 import './FileInput.css'
@@ -8,7 +8,11 @@ import './FileInput.css'
  * @returns {JSX.Element} - The rendered FileInput component.
  */
 export default function FileInput() {
+  const [courseTitle, setCourseTitle] = useState('')
   const [selectedFiles, setSelectedFiles] = useState([])
+  const [isUploading, setIsUploading] = useState(false)
+
+  const fileInputRef = useRef()
 
   /**
    * Handles file selection change event.
@@ -23,21 +27,46 @@ export default function FileInput() {
    * Handles uploading selected files.
    */
   const handleUploadFiles = async () => {
-    const success = await upload(selectedFiles)
+    setIsUploading(true)
+    const success = await upload(selectedFiles, courseTitle)
+    setIsUploading(false)
+
     console.log(success)
     reset()
   }
 
   /**
-   * Resets the selected files.
+   * Handles entering course title.
+   * @param {Event} e - The change event object.
+   */
+  const handleCourseTitle = (e) => {
+    setCourseTitle(e.target.value)
+  }
+
+  /**
+   * Resets the selected files and course title.
    */
   const reset = () => {
     setSelectedFiles([])
+    setCourseTitle('')
+    fileInputRef.current.value = null
   }
 
   return (
-    <div className='file-input'>
-      <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white" htmlFor="default_size">
+    <form className='file-input'>
+
+      <label htmlFor="course-title" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Course Title</label>
+      <input
+        value={courseTitle}
+        onChange={handleCourseTitle}
+        type="text"
+        id="course-title"
+        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        placeholder="Course Title"
+        required
+      />
+
+      <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white" htmlFor="file-upload">
         Upload your Images
       </label>
       <input
@@ -46,6 +75,7 @@ export default function FileInput() {
         type="file"
         multiple
         onChange={handleFileChange}
+        ref={fileInputRef}
       />
 
       {/* Display the selected files */}
@@ -61,8 +91,10 @@ export default function FileInput() {
       )}
 
       {/* Button for uploading files */}
-      <Button onClick={handleUploadFiles}>Upload</Button>
+      <Button onClick={handleUploadFiles} disabled={isUploading}>
+        {isUploading ? 'Uploading...' : 'Upload'}
+      </Button>
 
-    </div>
+    </form>
   )
 }
