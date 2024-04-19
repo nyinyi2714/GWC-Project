@@ -14,26 +14,24 @@ export default function Profile() {
   const navigate = useNavigate()
 
   useLayoutEffect(() => {
-    if(!user) navigate('/login')
+    if (!user) navigate('/login')
   }, [])
 
-  return(
+  return (
     <section className='profile'>
       <h1>{`${user.first_name} ${user.last_name}`}</h1>
-      <h2>Your Images</h2>
-      <div className="grid-container">  
-        <Card imageUrl="https://randomuser.me/api/portraits/women/68.jpg" title="Test" />
-        <Card imageUrl="https://randomuser.me/api/portraits/women/68.jpg" title="Test" />
-        <Card imageUrl="https://randomuser.me/api/portraits/women/68.jpg" title="Test" />
-        <Card imageUrl="https://randomuser.me/api/portraits/women/68.jpg" title="Test" />
+      <h2>Your Uploaded Notes</h2>
+      <div className="grid-container">
+        {/* Display Course Card Here */}
       </div>
 
       <CustomModal
         isOpen={true}
-        closeModal={() => {}}
-        styles={{maxWidth: '800px', margin: 'auto'}}
+        closeModal={() => { }}
+        styles={{ margin: 'auto' }}
       >
-        <h2>Hello This is a Custom Modal</h2>
+        <iframe src="https://hackathon1-today-19.s3.amazonaws.com/Lecture2.pdf" width="100%" height="600px" />
+
       </CustomModal>
     </section>
   )
