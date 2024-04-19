@@ -16,19 +16,19 @@ export default function useUpload() {
     // Create a FormData object to hold the files
     const { courseId, instructor, year, semester, noteTitle } = customFormData
     const formData = new FormData()
-    formData.append('note_pdf', selectedFile)
+    formData.append('notes_pdf', selectedFile)
     formData.append('courseId', courseId)
     formData.append('instructor', instructor)
     formData.append('year', year)
     formData.append('semester', semester)
     formData.append('noteTitle', noteTitle)
 
+
     try {
       // Send a POST request to the backend server to upload the files
       const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}addNotes`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
           "Authorization": `Token ${localStorage.getItem("token")}`,
         },
         body: formData,

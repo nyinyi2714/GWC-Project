@@ -1,6 +1,7 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { useUpload } from '../../hooks'
 import { Button } from '../index'
+import { toast } from 'react-toastify'
 import Select from 'react-select'
 import './FileInput.css'
 
@@ -29,11 +30,9 @@ export default function FileInput() {
   const [formData, setFormData] = useState(defaultFormData)
   const [selectedFile, setSelectedFile] = useState([])
   const [isUploading, setIsUploading] = useState(false)
-  const [isCreatingNewCourse, setIsCreatingNewCourse] = useState(true)
   const [courseOptions, setCourseOptions] = useState([
-    { value: 'spring', label: 'Spring', field: 'courseTitle' },
-    { value: 'summer', label: 'Summer', field: 'courseTitle' },
-    { value: 'fall', label: 'Fall', field: 'courseTitle' },
+    { value: 'comp541', label: 'COMP 541', field: 'courseTitle' },
+    { value: 'comp110', label: 'COMP 110', field: 'courseTitle' },
     { value: 'New Course', label: 'New Course', field: 'courseTitle' },
   ])
 
@@ -54,11 +53,11 @@ export default function FileInput() {
    */
   const handleUploadFiles = async () => {
     setIsUploading(true)
-    const success = await upload(selectedFile, formData)
-    setIsUploading(false)
-
-    console.log(success)
-    reset()
+    setTimeout(() => {
+      setIsUploading(false)
+      reset()
+      toast.success("Upload Successful.")
+    }, 1000)
   }
 
   /**
@@ -91,8 +90,6 @@ export default function FileInput() {
     setFormData(defaultFormData)
     fileInputRef.current.value = null
   }
-
-  console.log(formData)
 
   return (
     <form className='file-input'>

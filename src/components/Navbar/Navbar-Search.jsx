@@ -1,14 +1,17 @@
 import { Link } from 'react-router-dom'
 import { useState } from 'react'
 import { useStateContext } from "../../StateContext"
+import useFetch from '../../hooks/useFetch'
 
 /**
  * Component for the navigation bar.
  * @returns {JSX.Element} - The rendered Navbar component.
  */
 export default function Navbar() {
+  const { fetchCourses } = useFetch()
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false)
-  const { user } = useStateContext()
+  const [search, setSearch] = useState()
+  const { user, setCourses } = useStateContext()
 
   /**
    * Toggles the mobile navigation menu.
@@ -17,8 +20,15 @@ export default function Navbar() {
     setIsMobileNavOpen(prev => !prev)
   }
 
-  const searchWithEnterKey = (e) => {
-    // TODO
+  const searchWithEnterKey = async (e) => {
+    if(e.key == 'Enter') {
+      const resData = await fetchCourses(search)
+      setCourses(resData)
+    }
+  }
+
+  const handleSearch = (e) => {
+    setSearch(e.target.value)
   }
 
   return (
@@ -59,6 +69,7 @@ export default function Navbar() {
               className="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="Search..."
               onKeyUp={searchWithEnterKey}
+              onChange={handleSearch}
             />
           </div>
 

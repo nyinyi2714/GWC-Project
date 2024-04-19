@@ -1,64 +1,36 @@
 import { useState, useEffect } from 'react'
 import { HashLoader } from "react-spinners"
 import { Button } from '../../components'
-import { toast } from 'react-toastify'
+import { useStateContext } from '../../StateContext'
 import CourseCard from '../../components/CourseCard/CourseCard'
+import useFetch from '../../hooks/useFetch'
+
 import './Homepage.css'
 
 export default function Homepage() {
-  const [isLoading, setIsLoading] = useState(false)
+  const { courses, setCourses } = useStateContext()
+  const { fetchAllCourses } = useFetch()
 
-  // useEffect(() => {
-  //   toast.success("Apple")
-  // }, [])
+  console.log(courses)
 
   return (
     <section className='homepage'>
       {
-        isLoading &&
+        courses.length <= 0 &&
         <div className="loading-spinner">
           <HashLoader color='#1A56DB' />
         </div>
       }
 
       {
-        !isLoading &&
+        courses.length > 0 &&
         <div className='courses-section'>
           <h2 className='section-heading'>Courses</h2>
           <div className='course-card-container'>
-
-            <CourseCard title={"COMP 482: Algorithm design and analysis"}
-              description={"The analysis of algorithms, in terms of time and space complexity for best/average/worst case execution using asymptotic notation."}
-              numNotes={12}
-            />
-            <CourseCard title={"COMP 482: Algorithm design and analysis"}
-              description={"The analysis of algorithms, in terms of time and space complexity for best/average/worst case execution using asymptotic notation."}
-              numNotes={12}
-            />
-            <CourseCard title={"COMP 482: Algorithm design and analysis"}
-              description={"The analysis of algorithms, in terms of time and space complexity for best/average/worst case execution using asymptotic notation."}
-              numNotes={12}
-            />
-            <CourseCard title={"COMP 482: Algorithm design and analysis"}
-              description={"The analysis of algorithms, in terms of time and space complexity for best/average/worst case execution using asymptotic notation."}
-              numNotes={12}
-            />
-            <CourseCard title={"COMP 482: Algorithm design and analysis"}
-              description={"The analysis of algorithms, in terms of time and space complexity for best/average/worst case execution using asymptotic notation."}
-              numNotes={12}
-            />
-            <CourseCard title={"COMP 482: Algorithm design and analysis"}
-              description={"The analysis of algorithms, in terms of time and space complexity for best/average/worst case execution using asymptotic notation."}
-              numNotes={12}
-            />
-            <CourseCard title={"COMP 482: Algorithm design and analysis"}
-              description={"The analysis of algorithms, in terms of time and space complexity for best/average/worst case execution using asymptotic notation."}
-              numNotes={12}
-            />
+            {courses.map(course => <CourseCard course={course} />)}
           </div>
         </div>
       }
-
     </section>
   )
 }
