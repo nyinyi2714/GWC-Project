@@ -14,8 +14,7 @@ export default function CoursePage(props) {
   console.log(id) 
 
   const [course, setCourse] = useState({
-    title: "COMP 482: Algorithm Design and Analysis",
-    description: "Lorem ipsum something something",
+    title: "COMP 541: Algorithm Design and Analysis",
     numNotes: 15
   });
 
@@ -53,10 +52,7 @@ export default function CoursePage(props) {
           <h2 className="notes-section-headline">Notes for this course</h2>
           <div className="course-notes">
             <div onClick={openPDF}><NoteCard /></div>
-            <div onClick={openPDF}><NoteCard /></div>
-            <div onClick={openPDF}><NoteCard /></div>
-            <div onClick={openPDF}><NoteCard /></div>
-            <div onClick={openPDF}><NoteCard /></div>
+
           </div>
         </>
       }

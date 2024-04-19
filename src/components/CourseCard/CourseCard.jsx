@@ -10,13 +10,13 @@ import notesIcon from "../../icons/notes-icon.svg"
  */
 
 export default function CourseCard({ course }) {
+  console.log(course)
     return (
         <Link to={`/course/${course.id}`}>
             <div className="course-card">
-                <h2 className="course-title">{course.title}</h2>
-                <div className="course-stats">
-                    <span>{10} notes</span>
-                </div>
+                <h2 className="course-title">Course: {course.course_title}</h2>
+                <h2 className="course-title">Instructor: {course.instructor}</h2>
+                <h2 className="course-title">{course.semester} {course.year}</h2>
             </div>
         </Link>
 

@@ -12,7 +12,7 @@ import "./NoteCard.css"
  * @returns {JSX.Element} - The rendered NoteCard component.
  */
 
-export default function NoteCard({ id = 7, notes_pdf = "", note_title = "Dynamic Programming implementation for Longest Increasing Subsequence", user = "null", instructor = "John", semester = "fall", year = "2024" }) {
+export default function NoteCard({ id = 7, notes_pdf = "", note_title = "Chapter 1: Data Mining", user = "null", instructor = "John", semester = "fall", year = "2024" }) {
     const [authorName, setAuthorName] = useState("John Doe");
 
     return (
