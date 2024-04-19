@@ -5,6 +5,7 @@ import Navbar from './components/Navbar/Navbar-Search'
 import Modal from 'react-modal'
 import 'react-toastify/dist/ReactToastify.css'
 import './App.css'
+import CoursePage from './pages/CoursePage/CoursePage';
 
 Modal.setAppElement('#root');
 
@@ -18,6 +19,8 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/upload" element={<Upload />} />
+        <Route path="/course/:id" element={<CoursePage />} />
+
       </Routes>
       <ToastContainer
         position="top-center"
@@ -25,7 +28,7 @@ function App() {
         hideProgressBar={false}
         newestOnTop={true}
         closeOnClick
-        rtl={false} 
+        rtl={false}
         pauseOnHover
         theme="light"
       />

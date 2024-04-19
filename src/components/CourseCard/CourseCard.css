@@ -1,0 +1,27 @@
+.course-card {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    height: auto;
+    box-shadow: 1px 1px 10px rgb(215, 215, 215);
+    border-radius: 5px;
+    padding: 15px;
+    transition: ease-in-out 0.2s;
+} 
+
+.course-card:hover {
+    cursor: pointer;
+    box-shadow: 1px 1px 20px rgb(169, 169, 169);
+}
+
+.course-title {
+    font-weight: 600;
+}
+
+.course-stats {
+    display: flex;
+    gap: 0.5rem;
+}
+
