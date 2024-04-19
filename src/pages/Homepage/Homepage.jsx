@@ -1,10 +1,15 @@
 import { useState, useEffect } from 'react'
 import { HashLoader } from "react-spinners"
 import { Button } from '../../components'
+import { toast } from 'react-toastify'
 import './Homepage.css'
 
 export default function Homepage() {
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(false)
+
+  // useEffect(() => {
+  //   toast.success("Apple")
+  // }, [])
 
   return (
     <section className='homepage'>
@@ -19,7 +24,6 @@ export default function Homepage() {
         !isLoading && 
         'Homepage'
       }
-
 
     </section>
   )
