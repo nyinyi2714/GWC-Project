@@ -5,24 +5,27 @@ export default function useUpload() {
  * @param {File[]} selectedFiles - Array of selected files to upload.
  * @returns {Promise<boolean>} - A promise indicating whether the upload was successful.
  */
-  async function upload(selectedFiles, courseTitle) {
+  async function upload(selectedFile, customFormData) {
 
     // Check if any files are selected
-    if (selectedFiles.length === 0) {
-      console.log("No files selected")
+    if (!selectedFile) {
+      console.log("No file selected")
       return false // No files selected, return false
     }
 
     // Create a FormData object to hold the files
+    const { courseId, instructor, year, semester, noteTitle } = customFormData
     const formData = new FormData()
-    selectedFiles.forEach(file => {
-      formData.append('files[]', file)
-      formData.append('courseTitle', courseTitle)
-    })
+    formData.append('note_pdf', selectedFile)
+    formData.append('courseId', courseId)
+    formData.append('instructor', instructor)
+    formData.append('year', year)
+    formData.append('semester', semester)
+    formData.append('noteTitle', noteTitle)
 
     try {
       // Send a POST request to the backend server to upload the files
-      const response = await fetch(`${process.env.BACKEND_URL}upload`, {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}addNotes`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -54,7 +54,7 @@ export default function FileInput() {
    */
   const handleUploadFiles = async () => {
     setIsUploading(true)
-    const success = await upload(selectedFile, ...formData)
+    const success = await upload(selectedFile, formData)
     setIsUploading(false)
 
     console.log(success)
